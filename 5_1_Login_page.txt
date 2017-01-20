@@ -6,7 +6,7 @@ Suite Teardown    Close Browser
 
 
 *** Variables ***
-${BROWSER}			          Firefox
+${BROWSER}			          chrome
 ${DELAY}			          0.1
 ${username}			          admin
 ${password}			          admin
@@ -70,6 +70,7 @@ Test Forgot Password Page
 
 Test Click with Blank data - Forgot Password Page
     Click Button                            Submit
+    Page Should Contain Element             id=divInvalidReset
 
 
  Test Input Incorrect Username - Forgot Password Page
