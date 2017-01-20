@@ -1,0 +1,95 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+Library           Selenium2Library
+Library           Collections
+Suite Teardown    Close Browser
+
+
+*** Variables ***
+${BROWSER}			          Firefox
+${DELAY}			          0.1
+${username}			          admin
+${password}			          admin
+${incorrect_username}         admintest
+${incorrect_password}         admintest
+${forgotpassword_username}    AeCaichangQA
+
+
+*** Test Cases ***
+Test Verify Login Page
+    ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
+    Set To Dictionary                       ${ff default caps}                        marionette=${True}
+    Open Browser    						http://10.88.88.171:51/BackendSG1/        ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed    					${DELAY} 
+    Page Should Contain Element             id=txtUserName
+    Page Should Contain Element             id=txtPassword
+    Page Should Contain Element             id=uniform-RememberMe
+    Page Should Contain Checkbox            id=RememberMe
+    Page Should Contain Button              Login
+    Page Should Contain Element             //h4[text()='Forgot your password ?']
+    Page Should Contain Element             id=forget-password
+
+
+Test Click with BLANK data
+    Click Button                            Login
+    Page Should Contain Button              //html/body/div[3]/form[1]/div[1]/button
+    Page Should Contain Element             //span[text()='UserName is required.']
+    Page Should Contain Element             //span[text()='Password is required.']
+    Capture Page Screenshot 
+    Click button                            //html/body/div[3]/form[1]/div[1]/button
+    Capture Page Screenshot 
+
+
+Test Input Incorrect Username
+    Input Text                              id=txtUserName                              ${incorrect_username}
+    Input Text                              id=txtPassword                              ${password}
+    Click Button                            Login
+    Page Should Contain Element             //span[text()='Login Failed. Invalid email id or password.']
+    Capture Page Screenshot 
+    Click Button                            //*[@id='divInvalidModel']/button
+    Capture Page Screenshot 
+
+
+Test Input Incorrect Password
+    Input Text                              id=txtUserName                              ${username}
+    Input Text                              id=txtPassword                              ${incorrect_password}
+    Click Button                            Login
+    Page Should Contain Element             //span[text()='Login Failed. Invalid email id or password.']
+    Capture Page Screenshot 
+    Click Button                            //*[@id='divInvalidModel']/button
+    Capture Page Screenshot
+
+
+Test Forgot Password Page
+    Click Element                           id=forget-password
+    Page Should Contain Element             id=txtForgetUser
+    Page Should Contain Button              //*[@id='back-btn']
+    Page Should Contain Button              //*[@id='btnForgetSubmit']
+
+
+Test Click with Blank data - Forgot Password Page
+    Click Button                            Submit
+
+
+ Test Input Incorrect Username - Forgot Password Page
+    Input Text                              id=txtForgetUser                            ${incorrect_username}
+    Click Button                            Submit
+    Page Should Contain Element             //span[text()='Invalid User Name.']
+    Capture Page Screenshot
+    Click Button                            //*[@id='divInvalidReset']/button
+
+
+ Test Input Correct Username - Forgot Password Page
+    Input Text                              id=txtForgetUser                            ${forgotpassword_username}
+    Click Button                            Submit
+    Page Should Contain Element             //*[@id='divInvalidReset']
+    Capture Page Screenshot
+
+
+Test Login success
+    Click Button                            //*[@id='back-btn']
+    Input Text                              id=txtUserName                            ${username}
+    Input Text                              id=txtPassword                            ${username}
+    Click Button                            Login
+    Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
