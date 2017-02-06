@@ -1,0 +1,257 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+Library           Selenium2Library
+Library           Collections
+Suite Teardown    Close Browser
+
+
+*** Variables ***
+${BROWSER}                    chrome
+${DELAY}                      0.1
+${username}                   admin
+${password}                   admin
+${incorrect_username}         admintest
+${incorrect_password}         admintest
+${forgotpassword_username}    AeCaichangQA
+
+
+*** Test Cases ***
+Test Verify Login Page
+    ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
+    Set To Dictionary                       ${ff default caps}                                                              marionette=${True}
+    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed                      ${DELAY} 
+    Page Should Contain Element             id=txtUserName
+    Page Should Contain Element             id=txtPassword
+    Page Should Contain Element             id=uniform-RememberMe
+    Page Should Contain Checkbox            id=RememberMe
+    Page Should Contain Button              Login
+    Page Should Contain Element             //h4[text()='Forgot your password ?']
+    Page Should Contain Element             id=forget-password
+
+
+Test Login success
+    Input Text                              id=txtUserName                                                                  ${username}
+    Input Text                              id=txtPassword                                                                  ${username}
+    Click Button                            Login
+    Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
+
+
+Test verify menu - Home
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[1]/a                                Home
+
+
+Test verify menu - Reservation
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]                                  Reservation
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/a        
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[1]/a                       Create New Booking
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[2]/a                       View Booking
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[2]/a 
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[2]/ul/li[1]/a              All Booking
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[2]/ul/li[2]/a              Quotation
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[2]/ul/li[3]/a              Open Bookings
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[2]/ul/li[2]/ul/li[4]/a              Pending Prepayment
+
+
+Test verify menu - Client Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/a/span[1]                        Client Management
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/a/span[1]
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[1]/a                       Profile
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[1]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[1]/ul/li[1]/a              Sub-Agent
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[1]/ul/li[2]/a              Sub-Agent Grouping
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[1]/ul/li[3]/a              B2C Member
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[2]/a                       B2B Markup
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[3]/a/span                  Predefined Markup
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[4]/a                       B2C Markup
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[5]/a                       Fee
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[5]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[5]/ul/li[1]/a              B2B Service
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[5]/ul/li[2]/a              B2B Credit Card
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[5]/ul/li[3]/a              B2C Service
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[5]/ul/li[4]/a              B2C Credit Card
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[6]/a                       Destination
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[6]/a           
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[6]/ul/li[1]/a              XML Destination
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[3]/ul/li[6]/ul/li[2]/a              VAT by Destination
+
+
+Test verify menu - Product
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/a                                Product
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[1]/a                       Hotel
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[2]/a                       Predefined Package
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[3]/a                       E-Flyer
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[4]/a                       Flight Bulk
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[5]/a                       Transfer
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[6]/a                       Sightseeing
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[4]/ul/li[7]/a                       Other
+
+
+Test verify menu - Website Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/a                                Website Management
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/a 
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/a                       B2B
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/ul/li[1]/a              Preferences
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/ul/li[2]/a              Email Notification
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/ul/li[3]/a              XML Supplier
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/ul/li[4]/a              Layout Setup
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[1]/ul/li[5]/a              Queue Placement
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/a                       B2C
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[1]/a              Layout Setup
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[2]/a              IBE Setup
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[2]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[2]/ul/li[1]/a     Custom Fields Booking Form
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[2]/ul/li[2]/a     Custom Fields Membership
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/a              IBE Configuration
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[1]/a     Agency Information
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[2]/a     Setup
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[3]/a     Payment
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[4]/a     Site Language
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[5]/a     LocaleSetting
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[6]/a     Email Notification Setting
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[3]/ul/li[7]/a     Website Look And Feel
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/a/span[1]      IBE Site configuration
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/a/span[1]
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[1]/a     AirSearchPage
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[2]/a     Air Result PAge
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[3]/a     Unique PIC
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[4]/a     General Condition
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[5]/a     Hotel Search Page
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[6]/a     Booking Review Form
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[7]/a     Member Registration Form
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[8]/a     Queue Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[9]/a     Facility Filtering Options
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[10]/a    Passenger Name Display
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[11]/a    Offline Payment Message
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[5]/ul/li[2]/ul/li[4]/ul/li[12]/a    Currency Conversion
+
+
+Test verify menu - Finance
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/a                                Finance
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/a                       Account Receivable
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[1]/a              Statement Of Account
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[2]/a              Client Payment
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[3]/a              Invoice List
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[4]/a              Receipt
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[5]/a              Credit Note
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[6]/a              Debit Note
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[1]/ul/li[7]/a              Refund
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[2]/a                       Account Payable
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[2]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[2]/ul/li[1]/a              Supplier Invoice
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[2]/ul/li[2]/a              Payment To Supplier
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[6]/ul/li[2]/ul/li[3]/a              Supplier Receipt
+
+
+Test verify menu - Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/a                                Management
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[1]/a                       Users & Roles
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[1]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[1]/ul/li[1]/a              User Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[1]/ul/li[2]/a              Role Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[1]/ul/li[3]/a              Role Setup Management
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/a                       Product Approval
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/ul/li[1]/a              Flight Bulk Purchase
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/ul/li[2]/a              Hotel
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/ul/li[3]/a              Package
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/ul/li[4]/a              Transfer
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/ul/li[5]/a              Sightseeing
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[7]/ul/li[2]/ul/li[6]/a              Other
+
+
+Test verify menu - System Parameters
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a/span[1]                        System Parameters
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a/span[1]            
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/a                       Location Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/a      
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/ul/li[1]/a                City Zone
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/ul/li[2]/a                Region
+
+
+Test verify menu - System Parameters - Product
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a                       Product Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a              Hotel Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a          
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[1]/a     Board Basis
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[2]/a     Hotel Category
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[3]/a     Inventory Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[4]/a     Facilities
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[5]/a     Room Category   
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[6]/a     Room Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[7]/a     Add-On Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/a              Flight Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/ul/li[1]/a     Airline
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/ul/li[2]/a     Airline Class
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/ul/li[3]/a     Airport
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[3]/a              Package Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[3]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[3]/ul/li/a        Package Category
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a              Transfer Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[1]/a     Vehicle Category
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[2]/a     Pick Drop Location
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[3]/a     Vehicle Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[4]/a     DriverGuide
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[5]/a     DriverGuide Category
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[6]/a     Distance Range
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/a              Other Product Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/ul/li[1]/a     OtherProduct Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/a              Sightseeing Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/ul/li[1]/a     Sightseeing Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/ul/li[2]/a     Sightseeing Category
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[7]/a              General
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[7]/a             
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[7]/ul/li/a        Pax Combination
+
+
+Test verify menu - System Parameters - Reservation
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a                       Reservation Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[1]/a              Agent Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[2]/a              Agent Group
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[3]/a              Client Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[4]/a              Pax Title
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[5]/a              Supplier Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[6]/a              Supplier
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[7]/a              Market
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[8]/a              Market Nationality
+
+
+Test verify menu - System Parameters - Finnace
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a                       Finance Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[1]/a              Bank Account
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[2]/a              Credit Terms
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[3]/a              Payment Method
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[4]/a              Payment Term
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[5]/a              Vat
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[6]/a              Tax Type
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[7]/a              Tax Rate
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[8]/a              Services Charge
+    Element Should Contain                  //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[9]/a              Exchange Rate
+
+
+Test verify menu - Report
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]                                   Reports
+    Click Element                          //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[1]/a                        Sales By Country
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[2]/a                        SubAgent Best Ranking
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[3]/a                        Refund
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[4]/a                        Supplier Production
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[5]/a                        Pending Prepayment
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[6]/a                        Agent Profile
+    Element Should Contain                 //*[@id='mainbody']/div[3]/div[1]/div/ul/li[9]/ul/li[7]/a                        Flight Ticket
