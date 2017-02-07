@@ -1,0 +1,189 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+Library           Selenium2Library
+Library           Collections
+Suite Teardown    Close Browser
+
+
+*** Variables ***
+${BROWSER}                      chrome
+${DELAY}                        0.1
+${username}                     admin
+${password}                     admin
+${incorrect_username}           admintest
+${incorrect_password}           admintest
+${forgotpassword_username}      AeCaichangQA
+${Test_data_code}               Testdata
+${Test_data_name}               Test Data Name (Do not use)
+${Test_data_name_edit}          Test Data Name (Do not use) Edit
+${Test_data_description}        Test Data description (Do not use)
+${facility_1}                   Internet access - wireless
+${Active_status}                Active
+${Inactive_status}              Inactive
+
+
+*** Test Cases ***
+Test Verify Login Page
+    ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
+    Set To Dictionary                       ${ff default caps}                        marionette=${True}
+    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
+    #Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed                      ${DELAY} 
+    Page Should Contain Element             id=txtUserName
+    Page Should Contain Element             id=txtPassword
+    Page Should Contain Element             id=uniform-RememberMe
+    Page Should Contain Checkbox            id=RememberMe
+    Page Should Contain Button              Login
+    Page Should Contain Element             //h4[text()='Forgot your password ?']
+    Page Should Contain Element             id=forget-password
+
+
+Login
+    Input Text                              id=txtUserName                                                                  ${username}
+    Input Text                              id=txtPassword                                                                  ${username}
+    Click Button                            Login
+    Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
+
+Location Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/a
+    Click Link                              http://10.88.88.171:51/BackendHK1/paramgeo/CityZone
+    Capture Page Screenshot
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                                     ${Test_data_name}
+    Input Text                              id=auto_citySearch                                                              Bangkok
+    Click Element                           id=sample_editable_1
+    Input Text                              id=description                                                                  ${Test_data_description}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[1]
+    Page Should Contain                     Data successfully saved 
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                                 ${Test_data_name}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                                  ${Test_data_name}
+    Capture Page Screenshot
+
+
+Product Related - Hotel Related
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+
+Product Related - Hotel Related - Board Basis
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[1]/a
+    Page Should Contain                     BB - BREAKFAST INCLUDED
+    Page Should Contain                     Full Board
+    Page Should Contain                     Halfboard
+    Page Should Contain                     Internation Buffet
+    Page Should Contain                     RO - ROOM ONLY
+
+Product Related - Hotel Related - Hotel Category
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[2]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_new']
+    Click Element                           //*[@id='sample_editable_1_new']
+    Input Text                              //*[@id='sample_editable_1']/tbody/tr[1]/td[1]/input[2]                         ${Test_data_name}
+    Input Text                              //*[@id='sample_editable_1']/tbody/tr[1]/td[2]/input                            ${Test_data_description}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span
+    Page Should Contain                     Data successfully saved 
+
+Product Related - Hotel Related - Inventory Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[3]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_new']
+    Click Element                           //*[@id='sample_editable_1_new']
+    Input Text                              id=datacode                                                                     ${Test_data_code} 
+    Input Text                              id=dataname                                                                     ${Test_data_name}
+    Input Text                              id=description                                                                  ${Test_data_description}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[1]/span/i
+    Page Should Contain                     Data successfully saved
+
+Product Related - Hotel Related - Inventory Type - Search                                                 
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                                 ${Test_data_code} 
+    Page Should Contain Element             //*[@id='sample_editable_1']/tbody/tr/td[1]                                     ${Test_data_code}
+
+Product Related - Hotel Related - Inventory Type - Edit
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[5]/a[1]/span
+    Input Text                              id=dataname                                                                     ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[4]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr/td[4]/select                              ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Product Related - Hotel Related - Inventory Type - Delete
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[5]/a[2]/span
+    Click Button                            OK
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
+    Page Should Not Contain                 ${Test_data_code}
+    Page Should Not Contain                 ${Test_data_name}
+
+Product Related - Hotel Related - Facilities - Search
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[4]/a
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                             ${facility_1}  
+    Page Should Contain Element             //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                              ${facility_1}  
+
+Product Related - Hotel Related - Facilities - Edit
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select                       ${Inactive_status}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Page Should Contain                     Data successfully saved
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select                       ${Active_status}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Page Should Contain                     Data successfully saved
+
+Product Related - Hotel Related - Room Category
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[5]/a
+    Page Should Contain                     Double
+    Page Should Contain                     Quad
+    Page Should Contain                     Single
+    Page Should Contain                     Triple
+
+Product Related - Hotel Related - Room Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[6]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_new']
+    Click Element                           //*[@id='sample_editable_1_new']
+    Input Text                              //*[@id='sample_editable_1']/tbody/tr[1]/td[1]/input[2]                     ${Test_data_name}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Product Related - Hotel Related - Room Type - Search
+    Input Text                             //*[@id='sample_editable_1_filter']/label/input                              ${Test_data_name}
+    Page Should Contain Element            //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                               ${Test_data_name}
+
+Product Related - Hotel Related - Room Type - Edit
+    Click Element                          //*[@id='sample_editable_1']/tbody/tr/td[3]/a[1]/span/i
+    Click Element                          //*[@id='sample_editable_1']/tbody/tr/td[2]/select
+    Select From List                       //*[@id='sample_editable_1']/tbody/tr/td[2]/select                       ${Active_status}
+    Click Element                          css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                    Data successfully saved
+
+Product Related - Hotel Related - Room Type - Delete
+    Click Element                          //table[@id='sample_editable_1']/tbody/tr/td[3]/a[2]/span
+    Click Button                           OK
+    Wait Until Element Is Visible          //*[@id='sample_editable_1_filter']/label/input
+    Clear Element Text                     //*[@id='sample_editable_1_filter']/label/input
+    Page Should Not Contain                ${Test_data_name}
+
+
+
+
+
+
