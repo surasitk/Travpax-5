@@ -16,11 +16,12 @@ ${forgotpassword_username}    AeCaichangQA
 
 
 *** Test Cases ***
-Test Verify Login Page
+Login
     ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
     Set To Dictionary                       ${ff default caps}                                                              marionette=${True}
-    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    #Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
     #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
+    Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed                      ${DELAY} 
     Page Should Contain Element             id=txtUserName

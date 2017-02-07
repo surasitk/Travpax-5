@@ -19,7 +19,7 @@ ${forgotpassword_username}    AeCaichangQA
 Test Verify Login Page
     ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
     Set To Dictionary                       ${ff default caps}                        marionette=${True}
-    Open Browser    						http://10.88.88.171:51/BackendSG1/        ${BROWSER}
+    Open Browser    						http://10.88.88.171:51/BackendHK1/        ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed    					${DELAY} 
     Page Should Contain Element             id=txtUserName
@@ -34,7 +34,7 @@ Test Verify Login Page
 Test Click with BLANK data
     Click Button                            Login
     Page Should Contain Button              //html/body/div[3]/form[1]/div[1]/button
-    Page Should Contain Element             //span[text()='UserName is required.']
+    Page Should Contain Element             //span[text()='Username is required.']
     Page Should Contain Element             //span[text()='Password is required.']
     Capture Page Screenshot 
     Click button                            //html/body/div[3]/form[1]/div[1]/button
@@ -45,7 +45,7 @@ Test Input Incorrect Username
     Input Text                              id=txtUserName                              ${incorrect_username}
     Input Text                              id=txtPassword                              ${password}
     Click Button                            Login
-    Page Should Contain Element             //span[text()='Login Failed. Invalid email id or password.']
+    Page Should Contain Element             //span[text()='Login Failed. Invalid username or password.']
     Capture Page Screenshot 
     Click Button                            //*[@id='divInvalidModel']/button
     Capture Page Screenshot 
@@ -55,7 +55,7 @@ Test Input Incorrect Password
     Input Text                              id=txtUserName                              ${username}
     Input Text                              id=txtPassword                              ${incorrect_password}
     Click Button                            Login
-    Page Should Contain Element             //span[text()='Login Failed. Invalid email id or password.']
+    Page Should Contain Element             //span[text()='Login Failed. Invalid username or password.']
     Capture Page Screenshot 
     Click Button                            //*[@id='divInvalidModel']/button
     Capture Page Screenshot
@@ -76,7 +76,7 @@ Test Click with Blank data - Forgot Password Page
  Test Input Incorrect Username - Forgot Password Page
     Input Text                              id=txtForgetUser                            ${incorrect_username}
     Click Button                            Submit
-    Page Should Contain Element             //span[text()='Invalid User Name.']
+    Page Should Contain Element             //span[text()='Invalid Username.']
     Capture Page Screenshot
     Click Button                            //*[@id='divInvalidReset']/button
 

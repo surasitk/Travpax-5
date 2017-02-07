@@ -7,9 +7,10 @@ Suite Teardown    Close Browser
 
 *** Variables ***
 ${BROWSER}                      chrome
-${DELAY}                        0.1
+${DELAY}                        0.2
 ${username}                     admin
 ${password}                     admin
+${password_Tourismo}            123qwe!@#Q
 ${incorrect_username}           admintest
 ${incorrect_password}           admintest
 ${forgotpassword_username}      AeCaichangQA
@@ -20,36 +21,30 @@ ${Test_data_description}        Test Data description (Do not use)
 ${facility_1}                   Internet access - wireless
 ${Active_status}                Active
 ${Inactive_status}              Inactive
+${Airlinemane}                  Thai Airways International Public Company Ltd.
+${Airlineclass}                 First Class
+${Airportname}                  Suvarnabhumi Airport
+
 
 
 *** Test Cases ***
-Test Verify Login Page
+Login
     ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
     Set To Dictionary                       ${ff default caps}                        marionette=${True}
-    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    #Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
     #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
-    #Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
+    Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
     Maximize Browser Window
-    Set Selenium Speed                      ${DELAY} 
-    Page Should Contain Element             id=txtUserName
-    Page Should Contain Element             id=txtPassword
-    Page Should Contain Element             id=uniform-RememberMe
-    Page Should Contain Checkbox            id=RememberMe
-    Page Should Contain Button              Login
-    Page Should Contain Element             //h4[text()='Forgot your password ?']
-    Page Should Contain Element             id=forget-password
-
-
-Login
+    Set Selenium Speed                      ${DELAY}
     Input Text                              id=txtUserName                                                                  ${username}
-    Input Text                              id=txtPassword                                                                  ${username}
+    Input Text                              id=txtPassword                                                                  ${password_Tourismo}
     Click Button                            Login
     Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
 
-Location Related
+Location Related - City Zone - Add + Search
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/a
-    Click Link                              http://10.88.88.171:51/BackendHK1/paramgeo/CityZone
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/ul/li[1]/a
     Capture Page Screenshot
     Wait Until Element Is Visible           id=sample_editable_1_new
     Click Element                           id=sample_editable_1_new
@@ -64,6 +59,26 @@ Location Related
     Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                                  ${Test_data_name}
     Capture Page Screenshot
 
+Location Related - City Zone - Edit 
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[1]/span
+    Input Text                              id=dataname                                                                     ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select                   
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select                           ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+
+Location Related - City Zone - Delete
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Button                            OK 
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                                 ${Test_data_name_edit}
+    Page Should Not Contain                 ${Test_data_name_edit}
+
+
+Location Related - Region
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/a
+    Click Element                              //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/ul/li[2]/a
 
 Product Related - Hotel Related
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
@@ -169,9 +184,9 @@ Product Related - Hotel Related - Room Type - Search
     Page Should Contain Element            //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                               ${Test_data_name}
 
 Product Related - Hotel Related - Room Type - Edit
-    Click Element                          //*[@id='sample_editable_1']/tbody/tr/td[3]/a[1]/span/i
+    Click Element                          //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/a[1]/span
     Click Element                          //*[@id='sample_editable_1']/tbody/tr/td[2]/select
-    Select From List                       //*[@id='sample_editable_1']/tbody/tr/td[2]/select                       ${Active_status}
+    Select From List                       //*[@id='sample_editable_1']/tbody/tr/td[2]/select                           ${Active_status}
     Click Element                          css=i.glyphicon.glyphicon-floppy-disk
     Page Should Contain                    Data successfully saved
 
@@ -182,6 +197,31 @@ Product Related - Hotel Related - Room Type - Delete
     Clear Element Text                     //*[@id='sample_editable_1_filter']/label/input
     Page Should Not Contain                ${Test_data_name}
 
+Product Related - Flight - Airline - Search
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a    
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/ul/li[1]/a
+    Input Text                              //*[@id='tbl_airline_filter']/label/input                                   ${Airlinemane}
+    Page Should Contain Element             //*[@id='tbl_airline']/tbody/tr/td[3]                                       ${Airlinemane}
+
+Product Related - Flight - Airline Class
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a    
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/ul/li[2]/a
+    Input Text                              //*[@id='tbl_airlineclass_filter']/label/input                              ${Airlineclass}
+    Page Should Contain Element             //*[@id='tbl_airlineclass']/tbody/tr[1]/td[3]                               ${Airlineclass}
+
+
+
+Product Related - Flight - Airline Class
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a    
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/ul/li[3]/a
+    Input Text                              //*[@id='tbl_airport_filter']/label/Input                                   ${Airportname}  
+    Page Should Contain Element             //*[@id='tbl_airport']/tbody/tr/td[6]                                       ${Airportname}
 
 
 
