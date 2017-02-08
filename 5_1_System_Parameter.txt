@@ -78,14 +78,14 @@ Location Related - City Zone - Delete
 Location Related - Region
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/a
-    Click Element                              //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/ul/li[2]/a
-
-Product Related - Hotel Related
-    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
-    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]
-    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[1]/ul/li[2]/a
+    Wait Until Element Is Visible           //*[@id='mainbody']/div[3]/div[2]/div/div[2]/div/div/div[2]
 
 Product Related - Hotel Related - Board Basis
+    Sleep                                   3
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[1]/a
     Page Should Contain                     BB - BREAKFAST INCLUDED
     Page Should Contain                     Full Board
@@ -215,7 +215,7 @@ Product Related - Flight - Airline Class
 
 
 
-Product Related - Flight - Airline Class
+Product Related - Flight - Airport name
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a    
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[2]/a
