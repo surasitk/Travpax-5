@@ -45,30 +45,34 @@ Login
     Click Button                            Login
     Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
     
-Reservation Related - Agent Type - Add
+Reservation Related - Client Type - Add
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
-    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[1]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[3]/a
     Wait Until Element Is Visible           id=sample_editable_1_new
     Click Element                           id=sample_editable_1_new
-    Input Text                              id=dataname                                                         ${Test_data_name}
-    Input Text                              id=description                                                      ${Test_data_description}
-    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
-    Page Should Contain                     Data successfully saved
-
-Reservation Related - Agent Type - Edit
-    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
-    Wait Until Element Is Visible			//*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
-    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
-    Input Text                              id=dataname                                                         ${Test_data_name_edit}
+    Input Text                              name=dataname                                                       ${Test_data_name}
+    Input Text                              name=datadescription                                                ${Test_data_description}
     Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
     Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select               ${Active_status}
     Click Element                           css=i.glyphicon.glyphicon-floppy-disk
-    Page Should Contain                     Data successfully saved
+    Page Should Contain                     Data successfully saved     
 
-Reservation Related - Agent Type - Delete
-    Click Element                           //i[@class='glyphicon glyphicon-trash']
-    Wait Until Element Is Visible			//i[@class='glyphicon glyphicon-trash']
+Reservation Related - Client Type - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Input Text                              name=dataname                                                       ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select               ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved  
+
+Reservation Related - Client Type - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[2]/span/i
     Click Button                            OK
-    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input                     
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
     Page Should Not Contain                 //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                      ${Test_data_name_edit}
