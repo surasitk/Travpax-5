@@ -24,20 +24,24 @@ ${Inactive_status}              Inactive
 ${Airlinemane}                  Thai Airways International Public Company Ltd.
 ${Airlineclass}                 First Class
 ${Airportname}                  Suvarnabhumi Airport
-
+${Country}                      Thailand
+${City}                         Bangkok
+${Latitude}                     13.728006764077056
+${Longitude}                    100.5323937535286
+${Locationame}                  อาคารเกษมกิจ
 
 
 *** Test Cases ***
 Login
     ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
     Set To Dictionary                       ${ff default caps}                        marionette=${True}
-    #Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
     #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
-    Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
+    #Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed                      ${DELAY}
     Input Text                              id=txtUserName                                                                  ${username}
-    Input Text                              id=txtPassword                                                                  ${password_Tourismo}
+    Input Text                              id=txtPassword                                                                  ${password} 
     Click Button                            Login
     Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
 
@@ -83,8 +87,8 @@ Location Related - Region
 
 Product Related - Hotel Related - Board Basis
     Sleep                                   3
-    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
-    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a      
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a   
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/a
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[1]/ul/li[1]/a
     Page Should Contain                     BB - BREAKFAST INCLUDED
@@ -194,8 +198,8 @@ Product Related - Hotel Related - Room Type - Delete
     Click Element                          //table[@id='sample_editable_1']/tbody/tr/td[3]/a[2]/span
     Click Button                           OK
     Wait Until Element Is Visible          //*[@id='sample_editable_1_filter']/label/input
-    Clear Element Text                     //*[@id='sample_editable_1_filter']/label/input
-    Page Should Not Contain                ${Test_data_name}
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
+    Page Should Not Contain                 ${Test_data_name}
 
 Product Related - Flight - Airline - Search
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
@@ -213,8 +217,6 @@ Product Related - Flight - Airline Class
     Input Text                              //*[@id='tbl_airlineclass_filter']/label/input                              ${Airlineclass}
     Page Should Contain Element             //*[@id='tbl_airlineclass']/tbody/tr[1]/td[3]                               ${Airlineclass}
 
-
-
 Product Related - Flight - Airport name
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a    
@@ -223,7 +225,206 @@ Product Related - Flight - Airport name
     Input Text                              //*[@id='tbl_airport_filter']/label/Input                                   ${Airportname}  
     Page Should Contain Element             //*[@id='tbl_airport']/tbody/tr/td[6]                                       ${Airportname}
 
+Product Related - Package - Package Category - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[3]/a
+    Input Text                              //*[@id='sample_editable_1']/tbody/tr[1]/td[1]/input[2]                     ${Test_data_name}
+    Input Text                              //*[@id='sample_editable_1']/tbody/tr[1]/td[2]/input                        ${Test_data_description}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Product Related - Package - Package Category - Search & Edit
+    Input Element                           //*[@id='sample_editable_1_filter']/label/input                             ${Test_data_name}
+    Page Should Contain Element             //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                              ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span
+    Input Text                              //*[@id='sample_editable_1']/tbody/tr[1]/td[1]/input[2]                     ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select                       ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Product Related - Package - Package Category - Delete
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[2]/span/i
+    Click Button                            OK
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                             ${Test_data_name_edit}
+    Page Should Not Contain                 //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                              ${Test_data_name_edit}
+
+#Product Related - Transfer - Vehicle Category (Error)
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[1]/a
+
+Product Related - Transfer - Pick Drop Location - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[2]/a
+    Click Element                           id=btnAddMemberProfile
+    Click Element                           id=ddlCountry
+    Select From List                        id=ddlCountry                                                               ${Country}
+    Click Element                           id=ddlCity
+    Select From List                        id=ddlCity                                                                  ${City}
+    Input Text                              id=txtLocationName                                                          ${Test_data_name}
+    Input Text                              id=txtDescription                                                           ${Test_data_description}
+    Click Element                           id=aSearchAddress
+    Input Text                              id=autocomplete                                                             ${Locationame}
+    Press key                               id=autocomplete                                                             \uE015
+    Press key                               id=autocomplete                                                             \uE007
+    #Input Text                              id=txtLatitude                                                              13.728006764077056
+    #Input Text                              id=txtLongitude                                                             100.5323937535286    
+    #Click Element                           id=aSearchLocation                               
+    Click Element                           //*[@id='btnSaveLocationPopup']
+    Click Button                            Save
+    #Page Should Contain                     Data successfully saved
 
 
+#Product Related - Transfer - Pick Drop Location - Edit
+#Product Related - Transfer - Pick Drop Location - Deleted
+#Product Related - Transfer - Vehicle Type - Add
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[3]/a
+    #Click Element                           id=sample_editable_1_new
+    #Input Text                              id=typename                                                             ${Test_data_name}
+    #Input Text                              id=typedesc                                                             ${Test_data_description}
+    #Input Text                              id=minpax                                                               3
+    #Input Text                              id=maxpax                                                               5
+    #Input Text                              id=maxlugg                                                              5
+    #Click Element                           id=ddlcarlugg
+    #Select From List                        id=ddlcarlugg                                                           No
+    #Click Button                            Save
 
+#Product Related - Transfer - Driver Guide - Add
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[3]/a
+    #Click Element                           id=btnNew
 
+Product Related - Transfer - Driver Guide Category - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[4]/ul/li[4]/a/span
+    Click Element                           id=btnNew
+    Input Text                              id=CategoryName                                                         ${Test_data_name}
+    Input Text                              id=CategoryDescription                                                  ${Test_data_description}
+    Click Button                            Save
+
+#Product Related - Transfer - Driver Guide Category - Search
+Product Related - Transfer - Driver Guide Category - Edit
+    Click Element                           //i[@class='fa fa-edit']
+    Input Text                              id=CategoryName                                                         ${Test_data_name_edit}
+    Click Element                           //*[@id='formguide']/div/div[3]/div/div/div/div/div/label/span[2]
+    Click Button                            Save
+
+Product Related - Transfer - Driver Guide Category - Delete
+    Click Element                           //i[@class='glyphicon glyphicon-trash']
+    Click Button                            OK
+
+Product Related - Sightseeing Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/ul/li[1]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_new']
+    Click Element                           //*[@id='sample_editable_1_new']
+    Input Text                              id=txt_typename                                                         ${Test_data_name}
+    Input Text                              id=txt_catdesc                                                          ${Test_data_description}
+    Click Button                            Save
+
+Product Related - Sightseeing Type - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_SightType']/tbody/tr[5]/td[5]/a[1]/span
+    Click Element                           //*[@id='sample_editable_SightType']/tbody/tr[5]/td[5]/a[1]/span
+    Input Text                              //*[@id='sample_editable_SightType']/tbody/tr[5]/td[2]/input[2]         ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_SightType']/tbody/tr[5]/td[1]/select
+    Select From List                        //*[@id='sample_editable_SightType']/tbody/tr[5]/td[1]/select           ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Product Related - Sightseeing Type - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_SightType']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_SightType']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Button                            OK
+
+Product Related - Sightseeing Category - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[5]/ul/li[2]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_new']
+    Click Element                           //*[@id='sample_editable_1_new']
+    Input Text                              id=txt_catname                                                          ${Test_data_name}
+    Input Text                              id=txt_catdesc                                                          ${Test_data_description}
+    Click Button                            Save
+
+Product Related - Sightseeing Category - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_Sight']/tbody/tr[4]/td[5]/a[1]/span/i
+    Click Element                           //*[@id='sample_editable_Sight']/tbody/tr[4]/td[5]/a[1]/span/i
+    Click Element                           //*[@id='sample_editable_Sight']/tbody/tr[4]/td[1]/select
+    Select From List                        //*[@id='sample_editable_Sight']/tbody/tr[4]/td[1]/select               ${Inactive_status}
+    Input Text                              //*[@id='sample_editable_Sight']/tbody/tr[4]/td[2]/input[2]             ${Test_data_name_edit}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Product Related - Sightseeing Category - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_Sight']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_Sight']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Button                            OK
+
+Product Related - General - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/ul/li/a/span
+    Wait Until Element Is Visible           id=btnNew
+    Click Element                           id=btnNew
+    Input Text                              id=txtCombinationName                                                   Test data name
+    Input Text                              id=txtMinPax                                                            12
+    Input Text                              id=txtMaxPax                                                            19
+    Input Text                              id=txtDescription                                                       Test data description
+    Click Element                           //*[@id='formpaxcombination']/div/div[1]/div/div[5]/div/div/div/div/label/span[3]
+    Click Button                            Save
+
+Product Related - General - Edit
+    Wait Until Element Is Visible           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[1]/span/i
+    Click Element                           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[1]/span/i
+    Input Text                              id=txtCombinationName                                               Test data name edit
+    Click Element                           //*[@id='formpaxcombination']/div/div[1]/div/div[5]/div/div/div/div/label/span[2]
+    Click Button                            Save
+
+Product Related - General - Delete
+    Wait Until Element Is Visible           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[2]/span/i
+    Click Element                           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[2]/span/i
+    Click Button                            OK
+
+Reservation Related - Agent Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[1]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         ${Test_data_name}
+    Input Text                              id=description                                                      ${Test_data_description}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Reservation Related - Agent Type - Edit
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Input Text                              id=dataname                                                         ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Reservation Related - Agent Type - Delete
+    Click Element                           //i[@class='glyphicon glyphicon-trash']
+    Wait Until Element Is Visible           //i[@class='glyphicon glyphicon-trash']
+    Click Button                            OK
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input                     
+    Page Should Not Contain                 //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                      ${Test_data_name_edit}

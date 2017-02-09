@@ -1,0 +1,74 @@
+*** Settings ***
+Documentation     A resource file with reusable keywords and variables.
+Library           Selenium2Library
+Library           Collections
+Suite Teardown    Close Browser
+
+
+*** Variables ***
+${BROWSER}                      chrome
+${DELAY}                        0.2
+${username}                     admin
+${password}                     admin
+${password_Tourismo}            123qwe!@#Q
+${incorrect_username}           admintest
+${incorrect_password}           admintest
+${forgotpassword_username}      AeCaichangQA
+${Test_data_code}               Testdata
+${Test_data_name}               Test Data Name (Do not use)
+${Test_data_name_edit}          Test Data Name (Do not use) Edit
+${Test_data_description}        Test Data description (Do not use)
+${facility_1}                   Internet access - wireless
+${Active_status}                Active
+${Inactive_status}              Inactive
+${Airlinemane}                  Thai Airways International Public Company Ltd.
+${Airlineclass}                 First Class
+${Airportname}                  Suvarnabhumi Airport
+${Country}                      Thailand
+${City}                         Bangkok
+${Latitude}                     13.728006764077056
+${Longitude}                    100.5323937535286
+${Locationame}					อาคารเกษมกิจ
+
+
+*** Test Cases ***
+Login
+    ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
+    Set To Dictionary                       ${ff default caps}                        marionette=${True}
+    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
+    #Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed                      ${DELAY}
+    Input Text                              id=txtUserName                                                                  ${username}
+    Input Text                              id=txtPassword                                                                  ${password} 
+    Click Button                            Login
+    Wait Until Element Is Visible           //*[@id="mainbody"]/div[3]/div[1]/div
+    
+Reservation Related - Agent Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[1]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         ${Test_data_name}
+    Input Text                              id=description                                                      ${Test_data_description}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Reservation Related - Agent Type - Edit
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Wait Until Element Is Visible			//*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/a[1]/span/i
+    Input Text                              id=dataname                                                         ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved
+
+Reservation Related - Agent Type - Delete
+    Click Element                           //i[@class='glyphicon glyphicon-trash']
+    Wait Until Element Is Visible			//i[@class='glyphicon glyphicon-trash']
+    Click Button                            OK
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input                     
+    Page Should Not Contain                 //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                      ${Test_data_name_edit}
