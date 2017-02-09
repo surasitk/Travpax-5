@@ -29,7 +29,7 @@ ${City}                         Bangkok
 ${Latitude}                     13.728006764077056
 ${Longitude}                    100.5323937535286
 ${Locationame}                  อาคารเกษมกิจ
-
+${Nationality}                  Thai
 
 *** Test Cases ***
 Login
@@ -491,3 +491,111 @@ Reservation Related - Client Type - Delete
     Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
     Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
     Page Should Not Contain                 //*[@id='sample_editable_1']/tbody/tr[1]/td[1]                      ${Test_data_name_edit}
+
+#Reservation Related - Pax Title - Add (Waitng new UI)
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[4]/a
+
+Reservation Related - Supplier Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[5]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              name=SupplierTypeName                                               ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/div/div/label/span[3]
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[7]/div/div/label/span[3]
+    Input Text                              name=Description                                                    ${Test_data_description}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[10]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[10]/select              ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved  
+
+Reservation Related - Supplier Type - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr[1]/td[2]                      ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[11]/a[1]/span
+    Input Text                              name=SupplierTypeName                                               ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[7]/div/div/label/span[2]
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[6]/div/div/label/span[3]
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[10]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[10]/select              ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved 
+
+Reservation Related - Supplier Type - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr/td[11]/a[2]/span
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[11]/a[2]/span
+    Click Button                            OK
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
+    Page Should Not Contain                 ${Test_data_name_edit}
+
+#Reservation Related - Supplier - Add
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    #Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[6]/a
+    #Wait Until Element Is Visible           id=btnAddSupplier
+    #Click Text                              id=btnAddSupplier
+
+Reservation Related - Market - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[7]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         ${Test_data_name}
+    Input Text                              id=description                                                      ${Test_data_description}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select               ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved 
+
+Reservation Related - Market - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[4]/a[1]/span/i
+    Input Text                              id=dataname                                                         ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[3]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved 
+
+Reservation Related - Market Nationality - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a 
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[8]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Page Should Contain                     All Market 
+    Page Should Contain                     Asian Market 
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[2]                         ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[1]/span
+    Click Element                           //*[@id='1787-selectable']
+    ${element}=                             Get Webelement      //span[text()='Thai']
+    Execute Javascript                      window.document.evaluate("//span[text()='Thai']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.scrollIntoView(true);
+    Click Element                           //li[@id='1785-selectable']//*[text()='Thai']
+    Click Element                           //*[@id='1785-selection']/span
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved 
+    Click Element                           //*[@id='1787-selection']/span
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data successfully saved 
+
+Reservation Related - Market - Delete
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[3]/ul/li[7]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Click Element                           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         ${Test_data_name_edit}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[4]/a[2]/span/i
+    Click Button                            OK
+    Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
+    Page Should Not Contain                 ${Test_data_name_edit}
