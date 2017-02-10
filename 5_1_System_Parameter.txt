@@ -35,7 +35,7 @@ ${Nationality}                  Thai
 Login
     ${ff default caps}                      Evaluate    sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX    sys,selenium.webdriver
     Set To Dictionary                       ${ff default caps}                        marionette=${True}
-    Open Browser                            http://10.88.88.171:51/BackendHK1/                                              ${BROWSER}
+    Open Browser                            http://10.88.88.171:51/BackendSG1/                                              ${BROWSER}
     #Open Browser                            http://119.81.52.162/travpax_dev/travpax_dev/                                   ${BROWSER}
     #Open Browser                            http://119.81.52.162:1001/BE/Tourismo/                                          ${BROWSER}
     Maximize Browser Window
@@ -375,7 +375,7 @@ Product Related - Sightseeing Category - Delete
     Click Element                           //*[@id='sample_editable_Sight']/tbody/tr[1]/td[5]/a[2]/span/i
     Click Button                            OK
 
-Product Related - General - Add
+Product Related - General - Pax Combination - Add
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/a
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[2]/ul/li[6]/a
@@ -389,17 +389,19 @@ Product Related - General - Add
     Click Element                           //*[@id='formpaxcombination']/div/div[1]/div/div[5]/div/div/div/div/label/span[3]
     Click Button                            Save
 
-Product Related - General - Edit
+Product Related - General - Pax Combination - Edit
     Wait Until Element Is Visible           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[1]/span/i
     Click Element                           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[1]/span/i
     Input Text                              id=txtCombinationName                                               Test data name edit
     Click Element                           //*[@id='formpaxcombination']/div/div[1]/div/div[5]/div/div/div/div/label/span[2]
     Click Button                            Save
 
-Product Related - General - Delete
-    Wait Until Element Is Visible           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[2]/span/i
-    Click Element                           //*[@id='grdPaxCombinationList']/tbody/tr[3]/td[6]/a[2]/span/i
+Product Related - General - Pax Combination - Delete
+    Wait Until Element Is Visible           //*[@id='txtCombinationName']
+    Input Text                              //*[@id='txtCombinationName']                                       Test data name edit
+    Click Element                           //*[@id='grdPaxCombinationList']/tbody/tr[1]/td[6]/a[2]/span/i
     Click Button                            OK
+    Page Should Contain                     Data deleted successfully.
 
 Reservation Related - Agent Type - Add
     Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
@@ -599,3 +601,162 @@ Reservation Related - Market - Delete
     Clear Element Text                      //*[@id='sample_editable_1_filter']/label/input
     Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name_edit}
     Page Should Not Contain                 ${Test_data_name_edit}
+
+Finanace Related - Bank Account - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[1]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[2]/td
+    Input Text                              id=bankname                                                         ${Test_data_name}
+    Input Text                              id=accountno                                                        212224236
+    Input Text                              id=beneficiary                                                      ${Test_data_name}
+    Input Text                              id=swift                                                            2017
+    Click Element                           id=isactive
+    Select From List                        id=isactive                                                         ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+    Page Should Contain                     Data saved successfully.
+
+Finanace Related - Credit Terms - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[2]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         TestDataName
+    Input Text                              id=dataday                                                          99
+    Input Text                              id=description                                                      TestDataNameDescription
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+
+Finanace Related - Credit Terms - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     TestDataName
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         TestDataName
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[1]/span/i
+    Input Text                              id=dataname                                                         TestDataNameEdit
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select               ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+  
+Finanace Related - Credit Terms - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Button                            OK
+
+Finanace Related - Payment Method - Check
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[3]/a/span
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/thead/tr/th[1]
+    Page Should Contain                     Credit Card
+    Page Should Contain                     Deposit
+
+Finanace Related - Payment Term - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[4]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         TestDataName
+    Press Key                               id=dataday                                                          99
+    Input Text                              id=description                                                      TestDataNameDescription
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Payment Terms - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     TestDataName
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         TestDataName
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[1]/span/i
+    Input Text                              id=dataname                                                         TestDataNameEdit
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select               ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Payment Terms - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Button                            OK
+
+Finanace Related - Vat - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[5]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         TestDataName
+    Input Text                              id=vatrate                                                          9.9
+    Input Text                              id=description                                                      ${Test_data_description}
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Vat - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     TestDataName
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         TestDataName
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[1]/span
+    Input Text                              id=dataname                                                         TestDataNameEdit
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[4]/select               ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Vat - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/a[2]/span/i
+    Click Button                            OK
+
+Finanace Related - Tax Type - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[6]/a
+    Wait Until Element Is Visible           id=sample_editable_1_new
+    Click Element                           id=sample_editable_1_new
+    Input Text                              id=dataname                                                         ${Test_data_name}
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[2]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Tax Type - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[3]/a[1]/span/i
+    Input Text                              id=dataname                                                         ${Test_data_name_edit}
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr/td[2]/select                  ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Tex Type - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr/td[3]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr/td[3]/a[2]/span/i
+    Click Button                            OK
+
+Finanace Related - Tax Rate - Add
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/a
+    Click Element                           //*[@id='mainbody']/div[3]/div[1]/div/ul/li[8]/ul/li[4]/ul/li[7]/a
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     TestDataName
+    Select From List                        id=select                                                           10 %
+    Input Text                              id=dataname                                                         ${Test_data_name}
+    Input Text                              id=rate                                                             15
+    Input Text                              id=description                                                      ${Test_data_description}
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/select               ${Active_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Tax Rate - Edit
+    Wait Until Element Is Visible           //*[@id='sample_editable_1_filter']/label/input
+    Input Text                              //*[@id='sample_editable_1_filter']/label/input                     ${Test_data_name}
+    Element Should Contain                  //*[@id='sample_editable_1']/tbody/tr/td[1]                         ${Test_data_name}
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[6]/a[1]/span
+    Input Text                              id=dataname                                                         ${Test_data_name_edit}
+    Select From List                        //*[@id='sample_editable_1']/tbody/tr[1]/td[5]/select               ${Inactive_status}
+    Click Element                           css=i.glyphicon.glyphicon-floppy-disk
+
+Finanace Related - Tex Rate - Delete
+    Wait Until Element Is Visible           //*[@id='sample_editable_1']/tbody/tr[1]/td[6]/a[2]/span/i
+    Click Element                           //*[@id='sample_editable_1']/tbody/tr[1]/td[6]/a[2]/span/i
+    Click Button                            OK
